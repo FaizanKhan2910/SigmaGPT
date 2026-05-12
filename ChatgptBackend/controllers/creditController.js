@@ -7,6 +7,7 @@ const plans = [
         name: "Basic",
         price: 10,
         credits: 100,
+        description: "Basic Plan - 100 credits for text and image generation",
         features: ['100 text generations', '50 image generations', 'Standard support', 'Access to basic models']
     },
     {
@@ -14,6 +15,7 @@ const plans = [
         name: "Pro",
         price: 20,
         credits: 500,
+        description: "Pro Plan - 500 credits with priority access and support",
         features: ['500 text generations', '200 image generations', 'Priority support', 'Access to pro models', 'Faster response time']
     },
     {
@@ -21,6 +23,7 @@ const plans = [
         name: "Premium",
         price: 30,
         credits: 1000,
+        description: "Premium Plan - 1000 credits with VIP support and premium models",
         features: ['1000 text generations', '500 image generations', '24/7 VIP support', 'Access to premium models', 'Dedicated account manager']
     }
 ]
@@ -63,8 +66,7 @@ export const purchasePlan = async (req, res) => {
                         product_data: {
                             name: plan.name,
                             description: plan.description,
-                            images: [plan.image],
-
+                            ...(plan.image && { images: [plan.image] }),
                         }
                     },
                     quantity: 1,
