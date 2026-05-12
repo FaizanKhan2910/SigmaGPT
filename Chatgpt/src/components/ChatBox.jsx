@@ -3,6 +3,7 @@ import { toast } from 'react-hot-toast'
 import { useAppContext } from '../context/AppContext'
 import { assets } from '../assets/assets'
 import Message from './Message'
+import VoiceAssistant from './VoiceAssistant'
 
 
 
@@ -124,12 +125,15 @@ const ChatBox = () => {
             className='flex-1 w-full text-[15px] outline-none bg-transparent dark:text-white placeholder-gray-500 dark:placeholder-gray-400 py-2'
             required
           />
-          <button
-            disabled={loading}
-            className={`p-2 rounded-xl transition-all duration-300 ${loading ? 'opacity-50' : 'hover:bg-purple-100 dark:hover:bg-purple-900/30'}`}
-          >
-            <img src={loading ? assets.stop_icon : assets.send_icon} className='w-6 sm:w-7 cursor-pointer' alt='' />
-          </button>
+          <div className="flex items-center gap-1.5">
+            <VoiceAssistant setParentPrompt={setPrompt} />
+            <button
+              disabled={loading}
+              className={`p-2 rounded-xl transition-all duration-300 ${loading ? 'opacity-50' : 'hover:bg-purple-100 dark:hover:bg-purple-900/30'}`}
+            >
+              <img src={loading ? assets.stop_icon : assets.send_icon} className='w-6 sm:w-7 cursor-pointer' alt='' />
+            </button>
+          </div>
         </form>
         <p className='text-[10px] text-center text-gray-400 mt-2'>SigmaGPT can make mistakes. Check important info.</p>
       </div>

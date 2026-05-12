@@ -22,12 +22,27 @@ export const textMessageController = async (req, res) => {
             isImage: false
         })
 
-        // Use Google Generative AI
-        const model = ai.getGenerativeModel({ model: "gemini-1.5-flash" });
+        // Use Google Generative AI with automated fallback chain to guarantee generation resilience
+        const modelsToTry = ["gemini-2.0-flash", "gemini-2.0-flash-exp", "gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+        let replyText = "";
+        let lastError = null;
 
-        const result = await model.generateContent(prompt);
-        const response = await result.response;
-        const replyText = response.text();
+        for (const modelName of modelsToTry) {
+            try {
+                const model = ai.getGenerativeModel({ model: modelName });
+                const result = await model.generateContent(prompt);
+                const response = await result.response;
+                replyText = response.text();
+                break; // Successfully generated content
+            } catch (err) {
+                console.warn(`Model ${modelName} failed, attempting fallback...`, err.message);
+                lastError = err;
+            }
+        }
+
+        if (!replyText) {
+            throw new Error(`AI generation failed across available clusters. Please verify API key permissions: ${lastError?.message || 'Unknown error'}`);
+        }
 
         const reply = { role: "model", content: replyText, timestamp: Date.now(), isImage: false };
 
