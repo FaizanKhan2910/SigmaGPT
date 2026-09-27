@@ -16,7 +16,7 @@ The application is designed as a complete SaaS product rather than a simple AI A
 
 <br/>
 
-[🚀 Live Demo](YOUR_LIVE_DEMO_URL) ·
+[🚀 Live Demo](https://sigmagpt-1-ewdw.onrender.com) ·
 [💻 Source Code](https://github.com/FaizanKhan2910/SigmaGPT)
 
 </div>
